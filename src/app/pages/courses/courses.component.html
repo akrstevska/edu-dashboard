@@ -1,0 +1,18 @@
+<div class="row d-flex justify-content-center">
+  <div class="col-11">
+    <mat-card class="p-4">
+      <mat-card-content>
+    <h2 class="fw-light">Courses</h2>
+    <button mat-raised-button
+            color="tertiary"
+            class="mb-3 secondary-button"
+            (click)="openCreateCourseDialog()">
+      <mat-icon>add</mat-icon>
+      Create Course
+    </button>
+    <app-courses-table [courses]="courses"></app-courses-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

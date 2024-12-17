@@ -1,0 +1,24 @@
+.enrollment-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.enrollment-card:hover {
+  transform: translateY(-5px);
+}
+
+.completed {
+  background-color: #beead3;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.not-completed {
+  background-color: #ff897d;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+
+}
+

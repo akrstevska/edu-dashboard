@@ -1,0 +1,50 @@
+<mat-dialog-content>
+  <div class="row d-flex justify-content-center p-2">
+    <div class="col-11">
+      <h4 class="mb-3">Enrollments</h4>
+
+      <!-- Loading Spinner -->
+      <div *ngIf="loading" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+        <mat-spinner diameter="50" color="primary"></mat-spinner>
+      </div>
+
+      <!-- Content when not loading -->
+      <ng-container *ngIf="!loading">
+        <ng-container *ngIf="enrollments.length > 0; else noEnrollments">
+          <mat-form-field class="col-12">
+            <mat-label>Filter</mat-label>
+            <input matInput (input)="applyFilter($event)" placeholder="Filter by course title">
+          </mat-form-field>
+
+          <div class="row justify-content-center">
+            <div *ngFor="let enrollment of paginatedEnrollments" class="col-lg-6 col-12 mb-4">
+              <app-enrollment-details
+                [enrollment]="enrollment"
+                [showViewDetails]="true"
+                [showDelete]="false"
+                [dialogRef]="dialogRef"
+                (delete)="onDelete($event)">
+              </app-enrollment-details>
+            </div>
+          </div>
+
+          <mat-paginator [length]="filteredEnrollments.length"
+                         [pageSize]="pageSize"
+                         [pageIndex]="pageIndex"
+                         (page)="onPageChange($event)">
+          </mat-paginator>
+        </ng-container>
+
+        <ng-template #noEnrollments>
+          <div class="text-center py-4">
+            <p class="text-light">Student not enrolled in any courses.</p>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

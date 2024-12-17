@@ -1,0 +1,13 @@
+.upcoming-deadlines-list {
+  list-style-type: none; /* Remove default list markers */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+.upcoming-deadlines-list li {
+  margin-bottom: 16px; /* Add space between list items */
+}
+
+.text-red{
+  color: #ff6b6b;
+}

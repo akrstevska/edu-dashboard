@@ -1,0 +1,68 @@
+@use '@angular/material' as mat;
+@use './app/styles/theme-colors' as my-theme;
+
+@include mat.core();
+
+:root {
+  @include mat.all-component-themes(my-theme.$light-theme);
+  @include mat.table-overrides((
+    row-item-outline-color: transparent,
+    background-color: transparent,
+    row-item-container-height: 60px
+  ));
+  @include mat.tabs-overrides((
+    active-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary, 30),
+    active-ripple-color: mat.get-theme-color(my-theme.$light-theme, secondary),
+    active-focus-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary),
+    active-hover-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary)
+  ));
+  @include mat.form-field-overrides((
+    filled-container-color: rgba(9, 18, 43, 0.13)
+  ));
+}
+
+.secondary-input{
+  @include mat.form-field-overrides((
+    outlined-caret-color: lighten(mat.get-theme-color(my-theme.$light-theme, secondary, 50), 20%),
+    outlined-focus-outline-color: mat.get-theme-color(my-theme.$light-theme, secondary, 50),
+    outlined-focus-label-text-color:  mat.get-theme-color(my-theme.$light-theme, secondary)
+  ));
+}
+.secondary-progress{
+  @include mat.progress-bar-overrides((
+    active-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary, 30),
+    //track-color: lighten(mat.get-theme-color(my-theme.$light-theme, secondary, 30), 50%),
+  ));
+}
+#student-table .mat-mdc-header-cell {
+  //background: lighten(mat.get-theme-color(my-theme.$light-theme, primary), 30%)!important;
+  background:   mat.get-theme-color(my-theme.$light-theme, primary, 30)!important;
+}
+
+#course-table .mat-mdc-header-cell {
+  background: mat.get-theme-color(my-theme.$light-theme, secondary, 30)!important;
+}
+
+.no-scroll {
+  overflow-x: hidden !important;
+}
+.lesson-header {
+  background-color: mat.get-theme-color(my-theme.$light-theme, secondary, 30)!important;
+  padding: 15px;
+}
+.selected-menu-item{
+  border-left-color: mat.get-theme-color(my-theme.$light-theme, primary, 30)!important;
+  background: #222B44!important;
+}
+.cell:hover {
+  background-color: rgba(9, 18, 43, 0.13);
+}
+.cell{
+  transition: all 0.3s ease;
+}
+.text-green{
+  color:#beead3;
+}
+
+
+

@@ -1,0 +1,43 @@
+<mat-card class="enrollment-card">
+  <mat-card-header class="d-flex justify-content-between mb-3">
+    <mat-card-title>{{ enrollment?.course?.title }}</mat-card-title>
+    <span
+      [ngClass]="{ 'completed': enrollment?.completionStatus, 'not-completed': !enrollment?.completionStatus }"
+      class=""
+      [matTooltip]="!(enrollment) || enrollment.completionStatus ? 'Completed' : 'Not Completed'"
+    ></span>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <div class="mb-2">{{ enrollment?.course?.semester }}</div>
+      <div class="mb-2" *ngIf="showDelete">{{ enrollment?.student?.firstName }} {{ enrollment?.student?.lastName }}</div>
+      <div class="mb-2">
+        <strong>Enrolled On:</strong> {{ enrollment?.enrollmentDate | date: 'mediumDate' }}
+      </div>
+      <div class="mb-2">
+        <strong>Progress:</strong>
+        <mat-progress-bar mode="determinate" [value]="enrollment?.progress?.overallProgress" [ngClass]="showDelete ? 'secondary-progress' : ''">></mat-progress-bar>
+        <span class="d-flex justify-content-end">
+          {{ enrollment?.progress?.overallProgress }}%
+        </span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="">
+        Last Access: {{ enrollment?.progress?.lastAccess | date: 'mediumDate' }}
+      </div>
+      <ng-container *ngIf="showViewDetails">
+        <button
+          mat-button
+          color="primary"
+          [routerLink]="['/courses', enrollment?.course?.id]"
+          (click)="onViewCourse()">
+          View Course Details
+        </button>
+      </ng-container>
+      <ng-container *ngIf="showDelete">
+        <button mat-button class="tertiary-button " (click)="onDelete()">Delete</button>
+      </ng-container>
+    </div>
+  </mat-card-content>
+</mat-card>

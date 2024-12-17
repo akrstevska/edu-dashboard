@@ -1,0 +1,8 @@
+.chart-container {
+  height: 90%;
+  width: 100%;
+}
+.error-message {
+  color: #ef6161;
+  text-align: center;
+}

@@ -1,0 +1,14 @@
+<div class="course-selection d-flex justify-content-center mt-1">
+  <mat-form-field appearance="fill">
+    <mat-label>Select Course</mat-label>
+    <mat-select [(value)]="selectedCourse" (selectionChange)="onCourseChange($event)">
+      <mat-option *ngFor="let course of courseList" [value]="course">
+        {{ course }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="chart-container mt-3 d-flex justify-content-center position-relative">
+  <canvas #chart></canvas>
+  <mat-spinner *ngIf="loading" diameter="50" color="primary" class="position-absolute top-50 start-50 translate-middle"></mat-spinner>
+</div>
