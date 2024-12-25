@@ -6,7 +6,7 @@ export type Instructor = {
   department: string;
 }
 
-export const Course = {
+export const Instructor = {
   default: Object.freeze({
     id: 0,
     firstName: '',

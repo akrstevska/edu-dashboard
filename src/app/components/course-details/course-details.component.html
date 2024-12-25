@@ -1,8 +1,14 @@
-<div class="row d-flex justify-content-center">
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
+  <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+</div>
+<div *ngIf="errorMessage" class="text-center text-danger">
+  {{ errorMessage }}
+</div>
+<div class="row d-flex justify-content-center w-100" *ngIf="course && !isLoading">
   <div class="col-11">
-    <div class="col-12 mb-4 p-3 rounded shadow-sm">
+    <div class="col-12 mb-4 p-3">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <mat-card class="p-4">
+        <mat-card class="p-4  w-100">
           <mat-card-content>
             <div class="d-flex justify-content-between mb-2">
               <div>
@@ -10,8 +16,7 @@
                 <h5 class="">{{ course.semester }}</h5>
               </div>
 
-
-              <button mat-flat-button class="secondary-button">
+              <button mat-flat-button class="secondary-button" (click)="openEnrollStudentDialog(course)">
                 <mat-icon class="me-2 ">assignment</mat-icon>
                 Enroll Student
               </button>
@@ -26,7 +31,7 @@
       </div>
       <mat-tab-group animationDuration="800ms">
         <mat-tab label="Lessons">
-          <app-lessons-tab [course_id]="course.id"></app-lessons-tab>
+          <app-lessons-tab [course]="course"></app-lessons-tab>
         </mat-tab>
         <mat-tab label="Enrollments">
           <app-enrollments-tab [course_id]="course.id"></app-enrollments-tab>
@@ -35,3 +40,4 @@
     </div>
   </div>
 </div>
+

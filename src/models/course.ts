@@ -6,6 +6,7 @@ export type Course = {
   description: string;
   enrollmentDeadline: string;
   semester: string;
+  instructor: Instructor;
 }
 
 export const Course = {

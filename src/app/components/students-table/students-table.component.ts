@@ -21,6 +21,9 @@ import {
   ViewEnrollmentsStudentDialogComponent
 } from '../../dialogs/view-enrollments-student-dialog/view-enrollments-student-dialog.component';
 import {StudentService} from '../../services/student.service';
+import {SwalService} from '../../services/swal.service';
+import Swal from 'sweetalert2';
+import {CreateStudentDialogComponent} from '../../dialogs/create-student-dialog/create-student-dialog.component';
 
 @Component({
   selector: 'app-students-table',
@@ -55,7 +58,7 @@ export class StudentsTableComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private dialog: MatDialog, private _liveAnnouncer: LiveAnnouncer, private swalService: SwalService, private studentService: StudentService, ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['students']) {
@@ -90,5 +93,46 @@ export class StudentsTableComponent implements AfterViewInit, OnChanges {
       data: { studentId: studentId }  // Pass studentId as data
     });
 
+  }
+  openEditStudentDialog(student: Student) {
+    const dialogRef = this.dialog.open(CreateStudentDialogComponent, {
+      width: '600px',
+      data: { student: student } // Pass the student to edit
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.studentService.fetchStudents().subscribe();
+      }
+    });
+  }
+
+  deleteStudent(studentId: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this student?',
+      icon: 'warning',
+      showCancelButton: true,
+      background: '#111B34',
+      color: '#efefef',
+      confirmButtonColor: '#3532B2',
+      cancelButtonColor: '#e57272',
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        container: 'swal2-theme-material-ui',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentService.deleteStudent(studentId).subscribe({
+          next: () => {
+            this.swalService.success('Student deleted successfully!');
+          },
+          error: (error) => {
+            this.swalService.error('Failed to delete student');
+            console.error('Delete error', error);
+          }
+        });
+      }
+    });
   }
 }

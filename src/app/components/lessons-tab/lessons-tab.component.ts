@@ -1,69 +1,80 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
+import { Component, AfterViewInit, Input, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { Lesson } from '../../../models/lesson';
+import {LessonService} from '../../services/lesson.service';
 import {MatButton, MatMiniFabButton} from '@angular/material/button';
 import {MatTooltip} from '@angular/material/tooltip';
-import {MatIcon} from '@angular/material/icon';
-import {Lesson} from '../../../models/lesson';
-import {NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {MatPaginator} from '@angular/material/paginator';
+import {NgForOf, NgIf, SlicePipe} from '@angular/common';
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {Course} from '../../../models/course';
 
 @Component({
   selector: 'app-lessons-tab',
+  templateUrl: './lessons-tab.component.html',
   imports: [
+    MatButton,
+    MatTooltip,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    NgForOf,
     MatCard,
     MatCardHeader,
+    MatCardTitle,
     MatMiniFabButton,
     MatCardContent,
-    MatTooltip, MatIcon,
-    MatCardTitle, MatCardSubtitle, NgForOf, NgIf, SlicePipe, MatButton, MatFormField, MatInput, MatLabel, MatPaginator
+    MatIcon,
+    NgIf,
+    SlicePipe,
+    MatPaginator,
+    MatProgressSpinner
   ],
-  templateUrl: './lessons-tab.component.html',
-  styleUrl: './lessons-tab.component.css'
+  styleUrls: ['./lessons-tab.component.css']
 })
-export class LessonsTabComponent implements AfterViewInit{
-  @Input({required: true})
-  course_id: number = 0;
-
-  lessons = [
-    {
-      "id": 1,
-      "title": "Variables and Data Types",
-      "description": "Introduction to variables and data types in programming",
-      "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-      "isExpanded": false,
-      "course": null,
-    },
-    {
-      "id": 7,
-      "title": "Lesson 3: Control Structures",
-      "description": "This lesson explains control structures such as if statements and loops.",
-      "content": "Control Structures",
-      "isExpanded": false,
-      "course": null,
-
-    },
-    {
-      "id": 8,
-      "title": "Lesson 4: Functions and Methods",
-      "description": "This lesson introduces functions and methods, explaining their purpose and how to use them.",
-      "content": "Functions and Methods",
-      "isExpanded": false,
-      "course": null,
-
-    }
-  ] ;
-  toggleContent(index: number): void {
-    this.lessons[index].isExpanded = !this.lessons[index].isExpanded;
-  }
-
-  filteredLessons: Lesson[] = [...this.lessons];
+export class LessonsTabComponent implements AfterViewInit, OnInit {
+  @Input({ required: true }) course: Course | undefined;
+  lessons: Lesson[] = [];
+  filteredLessons: Lesson[] = [];
   paginatedLessons: Lesson[] = [];
   pageSize = 2;
   pageIndex = 0;
+  loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private lessonService: LessonService) {}
+
+  ngOnInit(): void {
+    this.fetchLessons();
+  }
+
+  fetchLessons(): void {
+    if (!this.course?.id) {
+      console.error('Course ID is undefined.');
+      this.loading = false;
+      return;
+    }
+
+    this.loading = true;
+    this.lessonService.getLessonsByCourseId(this.course.id).subscribe({
+      next: (data) => {
+        this.lessons = data;
+        this.filteredLessons = [...this.lessons];
+        this.updatePaginatedLessons();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to fetch lessons:', err);
+        this.loading = false;
+      }
+    });
+  }
+
+
 
   ngAfterViewInit() {
     this.updatePaginatedLessons();
@@ -86,8 +97,12 @@ export class LessonsTabComponent implements AfterViewInit{
     this.filteredLessons = this.lessons.filter(lesson =>
       lesson?.title.toLowerCase().includes(filterValue)
     );
-
-    this.pageIndex = 0; // Reset to the first page
+    this.pageIndex = 0;
     this.updatePaginatedLessons();
+  }
+
+  toggleContent(index: number): void {
+    const lessonIndex = this.lessons.findIndex((_, i) => i === index);
+    this.lessons[lessonIndex].isExpanded = !this.lessons[lessonIndex].isExpanded;
   }
 }

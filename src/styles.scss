@@ -25,17 +25,17 @@
   @include mat.form-field-overrides((
     outlined-caret-color: lighten(mat.get-theme-color(my-theme.$light-theme, secondary, 50), 20%),
     outlined-focus-outline-color: mat.get-theme-color(my-theme.$light-theme, secondary, 50),
-    outlined-focus-label-text-color:  mat.get-theme-color(my-theme.$light-theme, secondary)
+    outlined-focus-label-text-color:  mat.get-theme-color(my-theme.$light-theme, secondary),
+    filled-focus-active-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary),
+    filled-focus-label-text-color: mat.get-theme-color(my-theme.$light-theme, secondary),
   ));
 }
 .secondary-progress{
   @include mat.progress-bar-overrides((
     active-indicator-color: mat.get-theme-color(my-theme.$light-theme, secondary, 30),
-    //track-color: lighten(mat.get-theme-color(my-theme.$light-theme, secondary, 30), 50%),
   ));
 }
 #student-table .mat-mdc-header-cell {
-  //background: lighten(mat.get-theme-color(my-theme.$light-theme, primary), 30%)!important;
   background:   mat.get-theme-color(my-theme.$light-theme, primary, 30)!important;
 }
 
@@ -63,6 +63,19 @@
 .text-green{
   color:#beead3;
 }
+.primary-text{
+  color: mat.get-theme-color(my-theme.$light-theme, primary, 30)!important;
+}
+.secondary-text{
+  color: mat.get-theme-color(my-theme.$light-theme, secondary, 30)!important;
+}
+.secondary-text-light{
+  color: mat.get-theme-color(my-theme.$light-theme, secondary, 80)!important;
+}
+.text-lighter{
+  color: #576280;
+}
+
 
 
 

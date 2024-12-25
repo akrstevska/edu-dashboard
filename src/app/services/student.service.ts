@@ -34,6 +34,22 @@ export class StudentService {
       })
     );
   }
+  deleteStudent(studentId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${studentId}`).pipe(
+      tap(() => {
+        const currentStudents = this.studentsSubject.value;
+        const updatedStudents = currentStudents.filter(student => student.id !== studentId);
+        this.studentsSubject.next(updatedStudents);
+      }),
+      catchError(error => {
+        console.error('Error deleting student', error);
+        throw error;
+      })
+    );
+  }
+  updateStudent(student: Student): Observable<Student> {
+    return this.http.put<Student>(`${this.apiUrl}/${student.id}`, student);
+  }
 
   getCurrentStudents(): Student[] {
     return this.studentsSubject.value;

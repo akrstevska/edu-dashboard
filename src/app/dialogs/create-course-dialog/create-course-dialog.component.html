@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>Create New Course</h2>
+<h2 mat-dialog-title>
+  {{ isEditMode ? 'Edit Course' : 'Create New Course' }}
+</h2>
 <mat-dialog-content>
   <form [formGroup]="courseForm">
     <div class="row mt-3">
@@ -36,7 +38,11 @@
       <mat-form-field class="col-6 mb-3 secondary-input" appearance="outline">
         <mat-label>Instructor</mat-label>
         <mat-icon matPrefix>person</mat-icon>
-        <input matInput formControlName="instructor" required>
+        <mat-select formControlName="instructor" required>
+          <mat-option *ngFor="let instructor of instructors" [value]="instructor.id">
+            {{ instructor.firstName }} {{ instructor.lastName }}
+          </mat-option>
+        </mat-select>
         <mat-error *ngIf="courseForm.get('instructor')?.invalid">
           Instructor is required
         </mat-error>
@@ -63,6 +69,6 @@
   <button mat-raised-button class="secondary-button" color="primary"
           (click)="onCreate()"
           [disabled]="courseForm.invalid">
-    Create Course
+    {{ isEditMode ? 'Update Course' : 'Create Course' }}
   </button>
 </mat-dialog-actions>

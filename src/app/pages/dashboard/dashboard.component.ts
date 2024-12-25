@@ -8,7 +8,6 @@ import {
   MatCardTitle
 } from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
-import {ChartComponent} from '../../components/chart/chart.component';
 import {WidgetComponent} from '../../components/widget/widget.component';
 import {Widget} from '../../../models/widget';
 import {StudentsComponent} from './widgets/students/students.component';
@@ -25,14 +24,14 @@ import {wrapGrid} from 'animate-css-grid';
     MatCardHeader,
     MatCardActions,
     MatButton, MatCardTitle, MatCardSubtitle,
-    ChartComponent, WidgetComponent, MatCardContent, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger
+    WidgetComponent, MatCardContent, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger
   ],
   providers: [DashboardService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-store=inject(DashboardService)
+  store=inject(DashboardService)
   dashboard = viewChild.required<ElementRef>('dashboard');
 
   ngOnInit(): void {

@@ -1,12 +1,26 @@
-<div class="mt-3">
-  <button
-    mat-raised-button
-    class="secondary-button"
-    matTooltip="Create Lesson"
-  ><mat-icon class="m-0">add</mat-icon> Create Lesson
-  </button>
-</div>
+<ng-container *ngIf="loading; else lessonContent">
+  <div class="d-flex justify-content-center mt-5">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</ng-container>
 
+<ng-template #lessonContent>
+  <div class="mt-3">
+    <button
+      mat-raised-button
+      class="secondary-button"
+      matTooltip="Create Lesson"
+    ><mat-icon class="m-0">add</mat-icon> Create Lesson
+    </button>
+  </div>
+
+  <ng-container *ngIf="lessons.length === 0; else lessonList" class="m-0 p-0">
+    <div class="row d-flex justify-content-center mt-3 m-0 p-0">
+      <p class="text-center">No lessons available for this course. Please create a new lesson.</p>
+    </div>
+  </ng-container>
+
+  <ng-template #lessonList>
 <div class="row d-flex justify-content-center mt-3 m-0 p-0">
   <div class="col p-0">
     <mat-form-field class="col-12 secondary-input">
@@ -93,3 +107,4 @@
     </mat-paginator>
   </div>
 </div>
+</ng-template>

@@ -1,0 +1,36 @@
+<mat-dialog-content>
+  <h2 mat-dialog-title>Enroll Student</h2>
+  <form [formGroup]="enrollmentForm">
+    <div class="student-chip-list">
+<!--      <mat-chip-list class="w-100">-->
+<!--        <mat-chip-->
+<!--          *ngFor="let student of students"-->
+<!--          [class.selected]="selectedStudent === student.id"-->
+<!--          (click)="selectStudent(student)"-->
+<!--          class="student-chip"-->
+<!--        >-->
+<!--          {{ student.name }}-->
+<!--        </mat-chip>-->
+<!--      </mat-chip-list>-->
+    </div>
+
+
+    <mat-form-field class="col-12 mb-3 secondary-input" appearance="outline">
+      <mat-label>Enrollment Date</mat-label>
+      <mat-icon matPrefix>event</mat-icon>
+      <input matInput
+             [matDatepicker]="picker"
+             formControlName="enrollmentDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="enrollmentForm.get('enrollmentDate')?.invalid">
+        Enrollment Date is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close class="secondary-button">Cancel</button>
+  <button mat-raised-button class="secondary-button" (click)="onEnroll()">Enroll</button>
+</mat-dialog-actions>

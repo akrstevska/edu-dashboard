@@ -38,10 +38,10 @@
         <button mat-mini-fab class="me-3" matTooltip="View Enrollments" (click)="openViewEnrollmentsDialog(student.id)">
           <mat-icon>view_sidebar</mat-icon>
         </button>
-        <button mat-mini-fab class="secondary-button me-3" matTooltip="Edit Student">
+        <button mat-mini-fab class="secondary-button me-3" matTooltip="Edit Student" (click)="openEditStudentDialog(student)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-mini-fab class="tertiary-button" matTooltip="Remove Student">
+        <button mat-mini-fab class="tertiary-button" matTooltip="Remove Student" (click)="deleteStudent(student.id)">
           <mat-icon>person_remove</mat-icon>
         </button>
 

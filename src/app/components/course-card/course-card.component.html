@@ -1,0 +1,31 @@
+<div class="mb-3">
+  <mat-card class="p-4 course">
+    <div class="d-flex align-items-center">
+    <mat-icon class="fs-1 me-4 course-icon secondary-text">school</mat-icon>
+
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h2 class="fs-4 fw-medium mb-2 secondary-text-light">{{ course?.title }}</h2>
+            <div class="d-flex gap-4 fw-light">
+              <span>Semester: {{ course?.semester }}</span>
+              <span>Enrollment Deadline: {{ course?.enrollmentDeadline | date: 'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <button mat-mini-fab class="me-3 secondary-button" matTooltip="View Course Details" [routerLink]="['/courses', course?.id]">
+                        <mat-icon>article</mat-icon>
+                      </button>
+            <button mat-mini-fab class="primary-button me-3" matTooltip="Edit Course" (click)="openEditCourseDialog(course)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+            <button mat-mini-fab class="tertiary-button" matTooltip="Remove Course" (click)="deleteCourse(course?.id)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

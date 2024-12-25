@@ -7,5 +7,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(), provideNativeDateAdapter(), provideHttpClient()]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
+    provideAnimationsAsync(), provideNativeDateAdapter(),
+    provideHttpClient()]
 };

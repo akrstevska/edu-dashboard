@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
@@ -23,47 +23,82 @@ import {Student} from '../../../models/student';
   styleUrl: './create-student-dialog.component.css'
 })
 export class CreateStudentDialogComponent implements OnInit {
+  studentForm!: FormGroup;
+  isEditMode = false;
+  studentToEdit: Student | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<CreateStudentDialogComponent>,
     private fb: FormBuilder,
     private swalService: SwalService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    @Inject(MAT_DIALOG_DATA) public data: { student?: Student }
   ) {
   }
 
-  studentForm!: FormGroup;
-
   ngOnInit() {
+    this.initForm();
+
+    if (this.data?.student) {
+      this.isEditMode = true;
+      this.studentToEdit = this.data.student;
+      this.populateForm(this.studentToEdit);
+    }
+  }
+  initForm() {
     this.studentForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      age: ['', [Validators.required, Validators.min(18), Validators.max(100)]],
-      currentYear: ['', [Validators.required, Validators.min(1), Validators.max(4)]]
+      age: ['', [Validators.required, Validators.min(1)]],
+      currentYear: ['', Validators.required]
     });
   }
-
+  populateForm(student: Student) {
+    this.studentForm.patchValue({
+      firstName: student.firstName,
+      lastName: student.lastName,
+      email: student.email,
+      age: student.age,
+      currentYear: student.currentYear
+    });
+  }
   onCreate() {
     if (this.studentForm.valid) {
       const studentData: Student = this.studentForm.value;
 
-      this.studentService.createStudent(studentData).subscribe({
-        next: (createdStudent) => {
-          this.swalService.success('Student created successfully!');
-          this.dialogRef.close(createdStudent);
-        },
-        error: (error) => {
-          console.error('Error creating student', error);
-          this.swalService.error('Failed to create student. Please try again.');
-        }
-      });
+      if (this.isEditMode && this.studentToEdit) {
+        const updatedStudent = {
+          ...this.studentToEdit,
+          ...studentData
+        };
+
+        this.studentService.updateStudent(updatedStudent).subscribe({
+          next: (student) => {
+            this.swalService.success('Student updated successfully!');
+            this.dialogRef.close(student);
+          },
+          error: (error) => {
+            console.error('Error updating student', error);
+            this.swalService.error('Failed to update student. Please try again.');
+          }
+        });
+      } else {
+        this.studentService.createStudent(studentData).subscribe({
+          next: (student) => {
+            this.swalService.success('Student created successfully!');
+            this.dialogRef.close(student);
+          },
+          error: (error) => {
+            console.error('Error creating student', error);
+            this.swalService.error('Failed to create student. Please try again.');
+          }
+        });
+      }
     } else {
       this.swalService.error('Please fill out all required fields correctly!');
-
       Object.keys(this.studentForm.controls).forEach(key => {
-        const control = this.studentForm.get(key);
-        control?.markAsTouched();
+        this.studentForm.get(key)?.markAsTouched();
       });
     }
   }
