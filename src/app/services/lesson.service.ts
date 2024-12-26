@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, catchError, Observable, tap} from 'rxjs';
-import {Lesson} from '../../models/lesson';
-import {Course} from '../../models/course';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
+import { Lesson } from '../../models/lesson';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LessonService {
-  private baseUrl = 'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/lesson';
+  private baseUrl =
+    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/lesson';
   private lessonSubject = new BehaviorSubject<Lesson[]>([]);
   lessons$ = this.lessonSubject.asObservable();
 
@@ -20,11 +20,11 @@ export class LessonService {
 
   createLesson(lesson: Lesson): Observable<Lesson> {
     return this.http.post<Lesson>(this.baseUrl, lesson).pipe(
-      tap(createdLesson => {
+      tap((createdLesson) => {
         const currentLessons = this.lessonSubject.value;
         this.lessonSubject.next([...currentLessons, createdLesson]);
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error creating lesson', error);
         throw error;
       })
@@ -37,10 +37,12 @@ export class LessonService {
     return this.http.delete<void>(`${this.baseUrl}/${lessonId}`).pipe(
       tap(() => {
         const currentLessons = this.lessonSubject.value;
-        const updatedLessons = currentLessons.filter(lesson => lesson.id !== lessonId);
+        const updatedLessons = currentLessons.filter(
+          (lesson) => lesson.id !== lessonId
+        );
         this.lessonSubject.next(updatedLessons);
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error deleting lesson', error);
         throw error;
       })

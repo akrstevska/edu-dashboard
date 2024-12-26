@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import {DashboardComponent} from './pages/dashboard/dashboard.component';
-import {StudentsComponent} from './pages/students/students.component';
-import {CoursesComponent} from './pages/courses/courses.component';
-import {CourseDetailsComponent} from './components/course-details/course-details.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { StudentsComponent } from './pages/students/students.component';
+import { CoursesComponent } from './pages/courses/courses.component';
+import { CourseDetailsComponent } from './components/course-details/course-details.component';
+import { CourseResolver } from './resolvers/course.resolver';
 
 export const routes: Routes = [
   {
@@ -24,7 +25,13 @@ export const routes: Routes = [
   },
   {
     path: 'courses/:id',
-    component: CourseDetailsComponent
+    component: CourseDetailsComponent,
+    resolve: {
+      course: CourseResolver,
+    },
   },
-
+  {
+    path: '**',
+    redirectTo: 'dashboard',
+  },
 ];

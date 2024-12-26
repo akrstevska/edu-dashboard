@@ -1,7 +1,7 @@
 <ng-container *ngIf="loading; else enrollmentsContent">
-<div class="d-flex justify-content-center mt-5">
-  <mat-spinner diameter="50"></mat-spinner>
-</div>
+  <div class="d-flex justify-content-center mt-5">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
 </ng-container>
 
 <ng-template #enrollmentsContent>
@@ -11,33 +11,24 @@
     </div>
   </ng-container>
   <ng-template #enrollmentsList>
-<div class="row d-flex justify-content-center mt-3 m-0 p-0">
-  <div class="col p-0">
-    <mat-form-field class="col-12 secondary-input">
-      <mat-label>Filter</mat-label>
-      <input matInput placeholder="Filter by student" (input)="applyFilter($event)">
-    </mat-form-field>
-    <div class="row justify-content-between m-0 p-0">
+    <div class="row d-flex justify-content-center mt-3 m-0 p-0">
+      <div class="col p-0">
+        <mat-form-field class="col-12 secondary-input">
+          <mat-label>Filter</mat-label>
+          <input matInput placeholder="Filter by student" (input)="applyFilter($event)">
+        </mat-form-field>
+        <div class="row justify-content-between m-0 p-0">
 
 
-<div *ngFor="let enrollment of paginatedEnrollments" class="col-lg-6 col-12 mb-4">
-  <app-enrollment-details
-    [enrollment]="enrollment"
-    [showViewDetails]="false"
-    [showDelete]="true"
-    (delete)="deleteEnrollment(enrollment.id)"
-  ></app-enrollment-details>
-</div>
-      <mat-paginator [length]="filteredEnrollments.length"
-                     [pageSize]="pageSize"
-                     [pageIndex]="pageIndex"
-                     [pageSizeOptions]="[2, 4, 8]"
-                     showFirstLastButtons
-                     (page)="onPageChange($event)">
-      </mat-paginator>
+          <div *ngFor="let enrollment of paginatedEnrollments" class="col-lg-6 col-12 mb-4">
+            <app-enrollment-details [enrollment]="enrollment" [showViewDetails]="false" [showDelete]="true"
+              (delete)="deleteEnrollment(enrollment.id)"></app-enrollment-details>
+          </div>
+          <mat-paginator [length]="filteredEnrollments.length" [pageSize]="pageSize" [pageIndex]="pageIndex"
+            [pageSizeOptions]="[2, 4, 8]" showFirstLastButtons (page)="onPageChange($event)">
+          </mat-paginator>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   </ng-template>
 </ng-template>
-

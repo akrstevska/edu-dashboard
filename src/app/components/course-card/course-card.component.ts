@@ -1,21 +1,20 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton } from '@angular/material/button';
 
-import {MatIcon} from "@angular/material/icon";
-import {MatMiniFabButton} from "@angular/material/button";
-
-import {MatTooltip} from "@angular/material/tooltip";
-import {Course} from '../../../models/course';
-import {DatePipe} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {MatCard} from '@angular/material/card';
-import {SwalService} from '../../services/swal.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Course } from '../../../models/course';
+import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatCard } from '@angular/material/card';
+import { SwalService } from '../../services/swal.service';
 import Swal from 'sweetalert2';
-import {CourseService} from '../../services/course.service';
-import {Student} from '../../../models/student';
-import {CreateStudentDialogComponent} from '../../dialogs/create-student-dialog/create-student-dialog.component';
-import {CreateCourseDialogComponent} from '../../dialogs/create-course-dialog/create-course-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import { CourseService } from '../../services/course.service';
+import { Student } from '../../../models/student';
+import { CreateStudentDialogComponent } from '../../dialogs/create-student-dialog/create-student-dialog.component';
+import { CreateCourseDialogComponent } from '../../dialogs/create-course-dialog/create-course-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-course-card',
@@ -28,13 +27,16 @@ import {MatDialog} from '@angular/material/dialog';
     MatCard,
   ],
   templateUrl: './course-card.component.html',
-  styleUrl: './course-card.component.css'
+  styleUrl: './course-card.component.css',
 })
 export class CourseCardComponent {
-
-  @Input({required: true})
+  @Input({ required: true })
   course: Course | undefined;
-  constructor(private swalService: SwalService, private courseService: CourseService, private dialog: MatDialog, ) {}
+  constructor(
+    private swalService: SwalService,
+    private courseService: CourseService,
+    private dialog: MatDialog
+  ) {}
 
   deleteCourse(courseId: number | undefined) {
     if (!courseId) {
@@ -64,7 +66,7 @@ export class CourseCardComponent {
           error: (error) => {
             this.swalService.error('Failed to delete course');
             console.error('Delete error', error);
-          }
+          },
         });
       }
     });
@@ -76,10 +78,10 @@ export class CourseCardComponent {
     }
     const dialogRef = this.dialog.open(CreateCourseDialogComponent, {
       width: '600px',
-      data: { course: course }
+      data: { course: course },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.courseService.fetchCourses().subscribe();
       }

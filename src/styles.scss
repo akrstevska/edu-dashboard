@@ -47,8 +47,13 @@
   overflow-x: hidden !important;
 }
 .lesson-header {
-  background-color: mat.get-theme-color(my-theme.$light-theme, secondary, 30)!important;
+  background-color: #09122B!important;
+
   padding: 15px;
+}
+.lesson-card{
+  border: 3px solid mat.get-theme-color(my-theme.$light-theme, secondary, 30)!important;
+
 }
 .selected-menu-item{
   border-left-color: mat.get-theme-color(my-theme.$light-theme, primary, 30)!important;

@@ -1,29 +1,40 @@
-import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import {
-  MatCell, MatCellDef,
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import {
+  MatCell,
+  MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatNoDataRow,
+  MatRow,
+  MatRowDef,
   MatTable,
-  MatTableDataSource
+  MatTableDataSource,
 } from '@angular/material/table';
 import { Student } from '../../../models/student';
 import { MatPaginator } from '@angular/material/paginator';
-import {MatSort, MatSortHeader, Sort} from '@angular/material/sort';
+import { MatSort, MatSortHeader, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatDialog } from '@angular/material/dialog';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {MatMiniFabButton} from '@angular/material/button';
-import {MatTooltip} from '@angular/material/tooltip';
-import {MatIcon} from '@angular/material/icon';
-import {
-  ViewEnrollmentsStudentDialogComponent
-} from '../../dialogs/view-enrollments-student-dialog/view-enrollments-student-dialog.component';
-import {StudentService} from '../../services/student.service';
-import {SwalService} from '../../services/swal.service';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatMiniFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { ViewEnrollmentsStudentDialogComponent } from '../../dialogs/view-enrollments-student-dialog/view-enrollments-student-dialog.component';
+import { StudentService } from '../../services/student.service';
+import { SwalService } from '../../services/swal.service';
 import Swal from 'sweetalert2';
-import {CreateStudentDialogComponent} from '../../dialogs/create-student-dialog/create-student-dialog.component';
+import { CreateStudentDialogComponent } from '../../dialogs/create-student-dialog/create-student-dialog.component';
 
 @Component({
   selector: 'app-students-table',
@@ -46,19 +57,34 @@ import {CreateStudentDialogComponent} from '../../dialogs/create-student-dialog/
     MatRow,
     MatRowDef,
     MatNoDataRow,
-    MatPaginator, MatLabel, MatIcon
+    MatPaginator,
+    MatLabel,
+    MatIcon,
   ],
-  styleUrls: ['./students-table.component.css']
+  styleUrls: ['./students-table.component.css'],
 })
 export class StudentsTableComponent implements AfterViewInit, OnChanges {
   @Input({ required: true }) students: Student[] = [];
-  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'age', 'currentYear', 'action'];
+  displayedColumns = [
+    'id',
+    'firstName',
+    'lastName',
+    'email',
+    'age',
+    'currentYear',
+    'action',
+  ];
   dataSource = new MatTableDataSource<Student>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private _liveAnnouncer: LiveAnnouncer, private swalService: SwalService, private studentService: StudentService, ) {}
+  constructor(
+    private dialog: MatDialog,
+    private _liveAnnouncer: LiveAnnouncer,
+    private swalService: SwalService,
+    private studentService: StudentService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['students']) {
@@ -90,17 +116,16 @@ export class StudentsTableComponent implements AfterViewInit, OnChanges {
       maxWidth: 'none',
       autoFocus: false,
       height: 'auto',
-      data: { studentId: studentId }  // Pass studentId as data
+      data: { studentId: studentId },
     });
-
   }
   openEditStudentDialog(student: Student) {
     const dialogRef = this.dialog.open(CreateStudentDialogComponent, {
       width: '600px',
-      data: { student: student } // Pass the student to edit
+      data: { student: student },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.studentService.fetchStudents().subscribe();
       }
@@ -130,9 +155,15 @@ export class StudentsTableComponent implements AfterViewInit, OnChanges {
           error: (error) => {
             this.swalService.error('Failed to delete student');
             console.error('Delete error', error);
-          }
+          },
         });
       }
     });
+  }
+  getSuffix(year: number): string {
+    if (year === 1) return 'st';
+    if (year === 2) return 'nd';
+    if (year === 3) return 'rd';
+    return 'th';
   }
 }

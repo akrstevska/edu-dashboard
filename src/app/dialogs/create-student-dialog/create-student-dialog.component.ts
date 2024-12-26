@@ -1,14 +1,23 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import {CommonModule} from '@angular/common';
-import {MatIcon} from '@angular/material/icon';
-import {SwalService} from '../../services/swal.service';
-import {StudentService} from '../../services/student.service';
-import {Student} from '../../../models/student';
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { SwalService } from '../../services/swal.service';
+import { StudentService } from '../../services/student.service';
+import { Student } from '../../../models/student';
 
 @Component({
   selector: 'app-create-student-dialog',
@@ -17,10 +26,12 @@ import {Student} from '../../../models/student';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule, CommonModule, MatIcon
+    MatButtonModule,
+    CommonModule,
+    MatIcon,
   ],
   templateUrl: './create-student-dialog.component.html',
-  styleUrl: './create-student-dialog.component.css'
+  styleUrl: './create-student-dialog.component.css',
 })
 export class CreateStudentDialogComponent implements OnInit {
   studentForm!: FormGroup;
@@ -33,8 +44,7 @@ export class CreateStudentDialogComponent implements OnInit {
     private swalService: SwalService,
     private studentService: StudentService,
     @Inject(MAT_DIALOG_DATA) public data: { student?: Student }
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -51,7 +61,7 @@ export class CreateStudentDialogComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       age: ['', [Validators.required, Validators.min(1)]],
-      currentYear: ['', Validators.required]
+      currentYear: ['', Validators.required],
     });
   }
   populateForm(student: Student) {
@@ -60,7 +70,7 @@ export class CreateStudentDialogComponent implements OnInit {
       lastName: student.lastName,
       email: student.email,
       age: student.age,
-      currentYear: student.currentYear
+      currentYear: student.currentYear,
     });
   }
   onCreate() {
@@ -70,7 +80,7 @@ export class CreateStudentDialogComponent implements OnInit {
       if (this.isEditMode && this.studentToEdit) {
         const updatedStudent = {
           ...this.studentToEdit,
-          ...studentData
+          ...studentData,
         };
 
         this.studentService.updateStudent(updatedStudent).subscribe({
@@ -80,8 +90,10 @@ export class CreateStudentDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating student', error);
-            this.swalService.error('Failed to update student. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to update student. Please try again.'
+            );
+          },
         });
       } else {
         this.studentService.createStudent(studentData).subscribe({
@@ -91,13 +103,15 @@ export class CreateStudentDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error creating student', error);
-            this.swalService.error('Failed to create student. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to create student. Please try again.'
+            );
+          },
         });
       }
     } else {
       this.swalService.error('Please fill out all required fields correctly!');
-      Object.keys(this.studentForm.controls).forEach(key => {
+      Object.keys(this.studentForm.controls).forEach((key) => {
         this.studentForm.get(key)?.markAsTouched();
       });
     }

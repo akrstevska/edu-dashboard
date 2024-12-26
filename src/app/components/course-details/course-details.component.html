@@ -8,26 +8,25 @@
   <div class="col-11">
     <div class="col-12 mb-4 p-3">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <mat-card class="p-4  w-100">
+        <mat-card class="p-4 w-100">
           <mat-card-content>
             <div class="d-flex justify-content-between mb-2">
               <div>
-                <h2 class="mb-3">{{ course.title }}</h2>
-                <h5 class="">{{ course.semester }}</h5>
+                <h2 class="mb-3 secondary-text-light">{{ course.title }}</h2>
+                <h5 class="secondary-text-light fw-light">{{ course.semester }}</h5>
               </div>
 
-              <button mat-flat-button class="secondary-button" (click)="openEnrollStudentDialog(course)">
+              <button mat-raised-button class="secondary-button" (click)="openEnrollStudentDialog(course)">
                 <mat-icon class="me-2 ">assignment</mat-icon>
                 Enroll Student
               </button>
             </div>
 
-
-      <div class="mb-5 lh-lg">
-        {{ course.description }}
-      </div>
-      </mat-card-content>
-      </mat-card>
+            <div class="mb-5 lh-lg">
+              {{ course.description }}
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
       <mat-tab-group animationDuration="800ms">
         <mat-tab label="Lessons">
@@ -40,4 +39,3 @@
     </div>
   </div>
 </div>
-

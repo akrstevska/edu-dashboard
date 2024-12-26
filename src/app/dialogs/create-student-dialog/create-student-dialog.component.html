@@ -61,9 +61,7 @@
 
 <mat-dialog-actions align="end">
   <button mat-button color="warn" (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary"
-          (click)="onCreate()"
-          [disabled]="studentForm.invalid">
+  <button mat-raised-button color="primary" (click)="onCreate()" [disabled]="studentForm.invalid">
     {{ isEditMode ? 'Update Student' : 'Create Student' }}
   </button>
 </mat-dialog-actions>

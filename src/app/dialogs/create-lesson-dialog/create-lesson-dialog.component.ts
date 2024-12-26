@@ -1,17 +1,26 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {SwalService} from '../../services/swal.service';
-import {MatOption, MatSelect} from '@angular/material/select';
-import {LessonService} from '../../services/lesson.service';
-import {Lesson} from '../../../models/lesson';
-import {Course} from '../../../models/course';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { SwalService } from '../../services/swal.service';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { LessonService } from '../../services/lesson.service';
+import { Lesson } from '../../../models/lesson';
+import { Course } from '../../../models/course';
 
 @Component({
   selector: 'app-create-lesson-dialog',
@@ -25,11 +34,9 @@ import {Course} from '../../../models/course';
     CommonModule,
     MatButton,
     MatIcon,
-    MatSelect,
-    MatOption
   ],
   templateUrl: './create-lesson-dialog.component.html',
-  styleUrl: './create-lesson-dialog.component.css'
+  styleUrl: './create-lesson-dialog.component.css',
 })
 export class CreateLessonDialogComponent implements OnInit {
   course: Course | undefined;
@@ -42,7 +49,7 @@ export class CreateLessonDialogComponent implements OnInit {
     private fb: FormBuilder,
     private swalService: SwalService,
     private lessonService: LessonService,
-    @Inject(MAT_DIALOG_DATA) public data: { course: Course, lesson?: Lesson }
+    @Inject(MAT_DIALOG_DATA) public data: { course: Course; lesson?: Lesson }
   ) {}
 
   ngOnInit() {
@@ -76,13 +83,13 @@ export class CreateLessonDialogComponent implements OnInit {
     if (this.lessonForm.valid) {
       const lessonData: Lesson = {
         ...this.lessonForm.value,
-        course: this.course
+        course: this.course,
       };
 
       if (this.isEditMode && this.lessonToEdit) {
         const updatedLesson = {
           ...this.lessonToEdit,
-          ...lessonData
+          ...lessonData,
         };
 
         this.lessonService.updateLesson(updatedLesson).subscribe({
@@ -92,8 +99,10 @@ export class CreateLessonDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating lesson', error);
-            this.swalService.error('Failed to update lesson. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to update lesson. Please try again.'
+            );
+          },
         });
       } else {
         this.lessonService.createLesson(lessonData).subscribe({
@@ -103,13 +112,15 @@ export class CreateLessonDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error creating lesson', error);
-            this.swalService.error('Failed to create lesson. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to create lesson. Please try again.'
+            );
+          },
         });
       }
     } else {
       this.swalService.error('Please fill out all required fields correctly!');
-      Object.keys(this.lessonForm.controls).forEach(key => {
+      Object.keys(this.lessonForm.controls).forEach((key) => {
         this.lessonForm.get(key)?.markAsTouched();
       });
     }

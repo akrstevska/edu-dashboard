@@ -26,9 +26,7 @@
     <mat-form-field class="col-12 secondary-input mb-3" appearance="outline">
       <mat-label>Description</mat-label>
       <mat-icon matPrefix>description</mat-icon>
-      <textarea matInput
-                placeholder="Enter course description"
-                formControlName="description"></textarea>
+      <textarea matInput placeholder="Enter course description" formControlName="description"></textarea>
       <mat-error *ngIf="courseForm.get('description')?.invalid">
         Description is required
       </mat-error>
@@ -51,9 +49,7 @@
       <mat-form-field class="col-6 mb-3 secondary-input" appearance="outline">
         <mat-label>Enrollment Deadline</mat-label>
         <mat-icon matPrefix>event</mat-icon>
-        <input matInput
-               [matDatepicker]="picker"
-               formControlName="enrollmentDeadline">
+        <input matInput [matDatepicker]="picker" formControlName="enrollmentDeadline">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="courseForm.get('enrollmentDeadline')?.invalid">
@@ -66,9 +62,8 @@
 
 <mat-dialog-actions align="end">
   <button mat-button class="secondary-button" color="warn" (click)="onCancel()">Cancel</button>
-  <button mat-raised-button class="secondary-button" color="primary"
-          (click)="onCreate()"
-          [disabled]="courseForm.invalid">
+  <button mat-raised-button class="secondary-button" color="primary" (click)="onCreate()"
+    [disabled]="courseForm.invalid">
     {{ isEditMode ? 'Update Course' : 'Create Course' }}
   </button>
 </mat-dialog-actions>

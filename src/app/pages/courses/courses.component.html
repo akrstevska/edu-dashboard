@@ -2,33 +2,27 @@
   <div class="col-11">
     <mat-card class="p-4">
       <mat-card-content>
-    <h2 class="fw-light">Courses</h2>
-    <button mat-raised-button
-            color="tertiary"
-            class="mb-3 secondary-button"
-            (click)="openCreateCourseDialog()">
-      <mat-icon>add</mat-icon>
-      Create Course
-    </button>
+        <h2 class="fw-light">Courses</h2>
+        <button mat-raised-button color="tertiary" class="mb-3 secondary-button" (click)="openCreateCourseDialog()">
+          <mat-icon>add</mat-icon>
+          Create Course
+        </button>
 
         <div *ngIf="loading">
-          <mat-spinner diameter="50" color="primary" class="position-relative  top-50 start-50 translate-middle"></mat-spinner>
+          <mat-spinner diameter="50" color="primary" class="position-relative  top-50 start-50 translate-middle">
+          </mat-spinner>
         </div>
 
         <div *ngIf="!loading">
-        <mat-form-field class="col-12 secondary-input" color="warn">
-          <mat-label>Search</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Search.." #input class="">
-        </mat-form-field>
-        @for (course of paginatedCourses; track course.id){
-          <app-course-card [course]="course" ></app-course-card>
-        }
-          <mat-paginator [length]="filteredCourses.length"
-                         [pageSize]="pageSize"
-                         [pageIndex]="pageIndex"
-                         [pageSizeOptions]="[4, 10, 15]"
-                         showFirstLastButtons
-                         (page)="onPageChange($event)">
+          <mat-form-field class="col-12 secondary-input" color="warn">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search.." #input class="">
+          </mat-form-field>
+          @for (course of paginatedCourses; track course.id){
+          <app-course-card [course]="course"></app-course-card>
+          }
+          <mat-paginator [length]="filteredCourses.length" [pageSize]="pageSize" [pageIndex]="pageIndex"
+            [pageSizeOptions]="[4, 10, 15]" showFirstLastButtons (page)="onPageChange($event)">
           </mat-paginator>
         </div>
       </mat-card-content>
@@ -36,4 +30,3 @@
     </mat-card>
   </div>
 </div>
-

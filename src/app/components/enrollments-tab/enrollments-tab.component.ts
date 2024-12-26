@@ -1,17 +1,17 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Enrollment} from '../../../models/enrollment';
-import {NgForOf, NgIf} from '@angular/common';
-import {EnrollmentDetailsComponent} from '../enrollment-details/enrollment-details.component';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {MatPaginator} from '@angular/material/paginator';
-import {Course} from '../../../models/course';
-import {MatDialog} from '@angular/material/dialog';
-import {SwalService} from '../../services/swal.service';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Enrollment } from '../../../models/enrollment';
+import { NgForOf, NgIf } from '@angular/common';
+import { EnrollmentDetailsComponent } from '../enrollment-details/enrollment-details.component';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatPaginator } from '@angular/material/paginator';
+import { Course } from '../../../models/course';
+import { MatDialog } from '@angular/material/dialog';
+import { SwalService } from '../../services/swal.service';
 import Swal from 'sweetalert2';
-import {EnrollmentService} from '../../services/enrollment.service';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {Subscription} from 'rxjs';
+import { EnrollmentService } from '../../services/enrollment.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-enrollments-tab',
@@ -23,10 +23,10 @@ import {Subscription} from 'rxjs';
     MatLabel,
     MatPaginator,
     MatProgressSpinner,
-    NgIf
+    NgIf,
   ],
   templateUrl: './enrollments-tab.component.html',
-  styleUrl: './enrollments-tab.component.css'
+  styleUrl: './enrollments-tab.component.css',
 })
 export class EnrollmentsTabComponent implements OnInit, OnDestroy {
   @Input({ required: true }) course: Course | undefined;
@@ -43,7 +43,7 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
   constructor(
     private enrollmentService: EnrollmentService,
     private dialog: MatDialog,
-    private swalService: SwalService,
+    private swalService: SwalService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +51,7 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
       this.loading = true;
 
       this.subscription.add(
-        this.enrollmentService.enrollments$.subscribe(enrollments => {
+        this.enrollmentService.enrollments$.subscribe((enrollments) => {
           this.enrollments = enrollments;
           this.filteredEnrollments = [...this.enrollments];
           this.updatePaginatedEnrollments();
@@ -59,15 +59,16 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
         })
       );
 
-      this.enrollmentService.getEnrollmentsByCourseId(this.course.id).subscribe({
-        error: (err) => {
-          console.error('Failed to fetch enrollments:', err);
-          this.loading = false;
-        }
-      });
+      this.enrollmentService
+        .getEnrollmentsByCourseId(this.course.id)
+        .subscribe({
+          error: (err) => {
+            console.error('Failed to fetch enrollments:', err);
+            this.loading = false;
+          },
+        });
     }
   }
-
 
   ngAfterViewInit() {
     this.updatePaginatedEnrollments();
@@ -76,7 +77,10 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
   updatePaginatedEnrollments() {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.paginatedEnrollments = this.filteredEnrollments.slice(startIndex, endIndex);
+    this.paginatedEnrollments = this.filteredEnrollments.slice(
+      startIndex,
+      endIndex
+    );
   }
 
   onPageChange(event: any) {
@@ -86,9 +90,12 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.filteredEnrollments = this.enrollments.filter(enrollment =>
-      enrollment?.student?.firstName.toLowerCase().includes(filterValue) //add morre
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.filteredEnrollments = this.enrollments.filter(
+      (enrollment) =>
+        enrollment?.student?.firstName.toLowerCase().includes(filterValue) //add morre
     );
     this.pageIndex = 0;
     this.updatePaginatedEnrollments();
@@ -124,10 +131,9 @@ export class EnrollmentsTabComponent implements OnInit, OnDestroy {
           error: (error) => {
             this.swalService.error('Failed to delete enrollment');
             console.error('Delete error', error);
-          }
+          },
         });
       }
     });
   }
-
 }

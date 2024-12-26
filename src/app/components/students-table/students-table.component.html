@@ -30,7 +30,8 @@
     </ng-container>
     <ng-container matColumnDef="currentYear" class="">
       <th mat-header-cell *matHeaderCellDef class="" mat-sort-header sortActionDescription="Sort by Year"> Year</th>
-      <td mat-cell *matCellDef="let student" class=""> {{ student.currentYear }}nd</td>
+      <td mat-cell *matCellDef="let student" class=""> {{ student.currentYear }}{{ getSuffix(student.currentYear) }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef class="text-center p-0"> Action</th>
@@ -38,7 +39,8 @@
         <button mat-mini-fab class="me-3" matTooltip="View Enrollments" (click)="openViewEnrollmentsDialog(student.id)">
           <mat-icon>view_sidebar</mat-icon>
         </button>
-        <button mat-mini-fab class="secondary-button me-3" matTooltip="Edit Student" (click)="openEditStudentDialog(student)">
+        <button mat-mini-fab class="secondary-button me-3" matTooltip="Edit Student"
+          (click)="openEditStudentDialog(student)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-mini-fab class="tertiary-button" matTooltip="Remove Student" (click)="deleteStudent(student.id)">
@@ -54,9 +56,6 @@
       <td class="mat-cell p-3" colspan="12">No data matching the search "{{ input.value }}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of students">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of students">
   </mat-paginator>
 </div>
-

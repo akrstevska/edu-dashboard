@@ -7,8 +7,12 @@
       <div class="mb-1">
         Enrollment Deadline: <span class="text-red">{{ course.enrollmentDeadline | date:'short' }}</span>
       </div>
-      <button mat-flat-button class="secondary-button" [routerLink]="['/courses', course.courseId]" style="margin-top: 8px;">View Course</button>
+      <button mat-flat-button class="secondary-button" [routerLink]="['/courses', course.courseId]"
+        style="margin-top: 8px;">View Course</button>
     </li>
   </ul>
-  <div><mat-spinner *ngIf="loading" diameter="50" color="primary" class="position-absolute top-50 start-50 translate-middle"></mat-spinner></div>
+  <div>
+    <mat-spinner *ngIf="loading" diameter="50" color="primary"
+      class="position-absolute top-50 start-50 translate-middle"></mat-spinner>
+  </div>
 </div>

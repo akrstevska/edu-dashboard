@@ -3,15 +3,10 @@
   <form [formGroup]="enrollmentForm">
     <mat-form-field class="col-12 mb-3 secondary-input" appearance="outline">
       <mat-label>Search Student</mat-label>
-      <input type="text"
-             matInput
-             formControlName="student"
-             [matAutocomplete]="auto"
-             placeholder="Start typing name or ID...">
+      <input type="text" matInput formControlName="student" [matAutocomplete]="auto"
+        placeholder="Start typing name or ID...">
       <mat-icon matPrefix>person_search</mat-icon>
-      <mat-autocomplete #auto="matAutocomplete"
-                        [displayWith]="displayFn"
-                        (optionSelected)="onStudentSelected($event)">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onStudentSelected($event)">
         <mat-option *ngFor="let student of filteredStudents | async" [value]="student">
           <div class="student-option">
             <span class="student-name">{{student.firstName}}</span>
@@ -27,9 +22,7 @@
     <mat-form-field class="col-12 mb-3 secondary-input" appearance="outline">
       <mat-label>Enrollment Date</mat-label>
       <mat-icon matPrefix>event</mat-icon>
-      <input matInput
-             [matDatepicker]="picker"
-             formControlName="enrollmentDate">
+      <input matInput [matDatepicker]="picker" formControlName="enrollmentDate">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="enrollmentForm.get('enrollmentDate')?.invalid">
@@ -41,10 +34,7 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close class="secondary-button">Cancel</button>
-  <button mat-raised-button
-          class="secondary-button"
-          (click)="onEnroll()"
-          [disabled]="!isFormValid()">
+  <button mat-raised-button class="secondary-button" (click)="onEnroll()" [disabled]="!isFormValid()">
     Enroll
   </button>
 </mat-dialog-actions>

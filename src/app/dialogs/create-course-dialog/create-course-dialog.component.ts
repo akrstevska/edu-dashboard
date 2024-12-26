@@ -1,20 +1,27 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {Student} from '../../../models/student';
-import {SwalService} from '../../services/swal.service';
-import {StudentService} from '../../services/student.service';
-import {Course} from '../../../models/course';
-import {CourseService} from '../../services/course.service';
-import {InstructorService} from '../../services/instructor.service';
-import {Instructor} from '../../../models/instructor';
-import {MatOption, MatSelect} from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { SwalService } from '../../services/swal.service';
+import { Course } from '../../../models/course';
+import { CourseService } from '../../services/course.service';
+import { InstructorService } from '../../services/instructor.service';
+import { Instructor } from '../../../models/instructor';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-create-course-dialog',
@@ -29,10 +36,10 @@ import {MatOption, MatSelect} from '@angular/material/select';
     MatButton,
     MatIcon,
     MatSelect,
-    MatOption
+    MatOption,
   ],
   templateUrl: './create-course-dialog.component.html',
-  styleUrl: './create-course-dialog.component.css'
+  styleUrl: './create-course-dialog.component.css',
 })
 export class CreateCourseDialogComponent implements OnInit {
   constructor(
@@ -41,7 +48,7 @@ export class CreateCourseDialogComponent implements OnInit {
     private swalService: SwalService,
     private courseService: CourseService,
     @Inject(MAT_DIALOG_DATA) public data: { course?: Course },
-    private instructorService: InstructorService,
+    private instructorService: InstructorService
   ) {}
   courseForm!: FormGroup;
   isEditMode = false;
@@ -83,7 +90,7 @@ export class CreateCourseDialogComponent implements OnInit {
       semester: course.semester,
       description: course.description,
       instructor: course.instructor?.id,
-      enrollmentDeadline: course.enrollmentDeadline
+      enrollmentDeadline: course.enrollmentDeadline,
     });
   }
 
@@ -99,7 +106,7 @@ export class CreateCourseDialogComponent implements OnInit {
       if (this.isEditMode && this.courseToEdit) {
         const updatedCourse = {
           ...this.courseToEdit,
-          ...courseData
+          ...courseData,
         };
 
         this.courseService.updateCourse(updatedCourse).subscribe({
@@ -109,8 +116,10 @@ export class CreateCourseDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating course', error);
-            this.swalService.error('Failed to update course. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to update course. Please try again.'
+            );
+          },
         });
       } else {
         this.courseService.createCourse(courseData).subscribe({
@@ -120,13 +129,15 @@ export class CreateCourseDialogComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error creating course', error);
-            this.swalService.error('Failed to create course. Please try again.');
-          }
+            this.swalService.error(
+              'Failed to create course. Please try again.'
+            );
+          },
         });
       }
     } else {
       this.swalService.error('Please fill out all required fields correctly!');
-      Object.keys(this.courseForm.controls).forEach(key => {
+      Object.keys(this.courseForm.controls).forEach((key) => {
         this.courseForm.get(key)?.markAsTouched();
       });
     }

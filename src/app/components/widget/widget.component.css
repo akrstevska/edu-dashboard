@@ -11,7 +11,7 @@
   border-radius: inherit;
   overflow: hidden;
 }
-.settings-button{
+.settings-button {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -20,4 +20,3 @@
   height: calc(100% - 100px);
   width: 100%;
 }
-

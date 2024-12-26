@@ -1,25 +1,25 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
-import {Course} from '../../models/course';
-import {Student} from '../../models/student';
+import { Course } from '../../models/course';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseService {
   private courseSubject = new BehaviorSubject<Course[]>([]);
   courses$ = this.courseSubject.asObservable();
 
   private http = inject(HttpClient);
-  private apiUrl = 'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/course';
+  private apiUrl =
+    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/course';
 
   fetchCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(this.apiUrl).pipe(
-      tap(response => {
+      tap((response) => {
         this.courseSubject.next(response);
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error fetching courses', error);
         this.courseSubject.next([]);
         return of([]);
@@ -29,15 +29,15 @@ export class CourseService {
 
   createCourse(course: Course): Observable<Course> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http.post<Course>(this.apiUrl, course, { headers }).pipe(
-      tap(createdCourse => {
+      tap((createdCourse) => {
         const currentCourses = this.courseSubject.value;
         this.courseSubject.next([...currentCourses, createdCourse]);
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error creating course', error);
         throw error;
       })
@@ -47,10 +47,12 @@ export class CourseService {
     return this.http.delete<void>(`${this.apiUrl}/${courseId}`).pipe(
       tap(() => {
         const currentCourses = this.courseSubject.value;
-        const updatedCourses = currentCourses.filter(course => course.id !== courseId);
+        const updatedCourses = currentCourses.filter(
+          (course) => course.id !== courseId
+        );
         this.courseSubject.next(updatedCourses);
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('Error deleting course', error);
         throw error;
       })
@@ -61,7 +63,7 @@ export class CourseService {
   }
   getCourseById(courseId: number): Observable<Course> {
     return this.http.get<Course>(`${this.apiUrl}/${courseId}`).pipe(
-      catchError(error => {
+      catchError((error) => {
         console.error('Error getting course by ID', error);
         throw error;
       })

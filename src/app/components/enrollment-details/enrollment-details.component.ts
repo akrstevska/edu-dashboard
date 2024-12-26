@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle,
+} from '@angular/material/card';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { DatePipe, NgClass, NgIf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -21,14 +27,12 @@ import { MatDialogRef } from '@angular/material/dialog';
     NgClass,
     MatTooltip,
     DatePipe,
-    MatCardSubtitle,
-    MatCardTitle
+    MatCardTitle,
   ],
   templateUrl: './enrollment-details.component.html',
-  styleUrls: ['./enrollment-details.component.css']
+  styleUrls: ['./enrollment-details.component.css'],
 })
 export class EnrollmentDetailsComponent {
-
   @Input() enrollment?: Enrollment;
   @Input() showViewDetails: boolean = true;
   @Input() showDelete: boolean = false;

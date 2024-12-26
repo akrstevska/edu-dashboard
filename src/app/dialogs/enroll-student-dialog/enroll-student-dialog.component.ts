@@ -1,28 +1,33 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogContent,
   MatDialogModule,
   MatDialogRef,
-  MatDialogTitle
+  MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {MatButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatOption} from '@angular/material/select';
-import {StudentService} from '../../services/student.service';
-import {EnrollmentService} from '../../services/enrollment.service';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {Course} from '../../../models/course';
-import {Student} from '../../../models/student';
-import {Enrollment} from '../../../models/enrollment';
-import {SwalService} from '../../services/swal.service';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatOption } from '@angular/material/select';
+import { StudentService } from '../../services/student.service';
+import { EnrollmentService } from '../../services/enrollment.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Course } from '../../../models/course';
+import { Student } from '../../../models/student';
+import { Enrollment } from '../../../models/enrollment';
+import { SwalService } from '../../services/swal.service';
 
 interface DialogData {
   course: Course;
@@ -40,10 +45,10 @@ interface DialogData {
     MatButton,
     MatIcon,
     MatOption,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   templateUrl: './enroll-student-dialog.component.html',
-  styleUrl: './enroll-student-dialog.component.css'
+  styleUrl: './enroll-student-dialog.component.css',
 })
 export class EnrollStudentDialogComponent implements OnInit {
   enrollmentForm: FormGroup;
@@ -62,17 +67,19 @@ export class EnrollStudentDialogComponent implements OnInit {
   ) {
     this.enrollmentForm = this.fb.group({
       student: ['', Validators.required],
-      enrollmentDate: [null, Validators.required]
+      enrollmentDate: [null, Validators.required],
     });
 
-    this.enrollmentForm.get('student')?.valueChanges.subscribe(value => {
+    this.enrollmentForm.get('student')?.valueChanges.subscribe((value) => {
       this.isValidSelection = value && typeof value === 'object';
     });
 
-    this.filteredStudents = this.enrollmentForm.get('student')!.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    );
+    this.filteredStudents = this.enrollmentForm
+      .get('student')!
+      .valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filter(value || ''))
+      );
   }
 
   ngOnInit() {
@@ -88,9 +95,10 @@ export class EnrollStudentDialogComponent implements OnInit {
 
   private _filter(value: string | Student): Student[] {
     const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
-    return this.students.filter(student =>
-      student.firstName.toLowerCase().includes(filterValue) ||
-      student.id.toString().includes(filterValue)
+    return this.students.filter(
+      (student) =>
+        student.firstName.toLowerCase().includes(filterValue) ||
+        student.id.toString().includes(filterValue)
     );
   }
 
@@ -113,10 +121,13 @@ export class EnrollStudentDialogComponent implements OnInit {
         id: 0,
         student: this.selectedStudent,
         course: this.data.course,
-        enrollmentDate: this.enrollmentForm.get('enrollmentDate')?.value.toISOString().split('T')[0],
+        enrollmentDate: this.enrollmentForm
+          .get('enrollmentDate')
+          ?.value.toISOString()
+          .split('T')[0],
         grade: 0,
         completionStatus: false,
-        progress: null
+        progress: null,
       };
       this.enrollmentService.enrollStudent(enrollment).subscribe({
         next: (enrollment) => {
@@ -126,7 +137,7 @@ export class EnrollStudentDialogComponent implements OnInit {
         error: (error) => {
           console.error('Error enrolling student', error);
           this.swalService.error('Failed to enroll student. Please try again.');
-        }
+        },
       });
     }
   }

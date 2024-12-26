@@ -1,21 +1,17 @@
-<div class="mat-elevation-z3 container"
-          [style.background-color]="data().background ?? '#111B34'"
-          [style.color]="data().color ?? 'inherit'"
->
+<div class="mat-elevation-z3 container" [style.background-color]="data().background ?? '#111B34'"
+  [style.color]="data().color ?? 'inherit'">
 
-    <h5 class="m-0">{{ data().label }}</h5>
-    <button mat-icon-button class="settings-button p-1"
-            (click)="showOptions.set(true)"
-            [style.--mdc-icon-button-icon-color]="data().color ?? 'inherit'"
-    >
-      <mat-icon>settings</mat-icon>
-    </button>
-    <ng-container [ngComponentOutlet]="data().content">
-    </ng-container>
+  <h5 class="m-0">{{ data().label }}</h5>
+  <button mat-icon-button class="settings-button p-1" (click)="showOptions.set(true)"
+    [style.--mdc-icon-button-icon-color]="data().color ?? 'inherit'">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <ng-container [ngComponentOutlet]="data().content">
+  </ng-container>
 
-    @if (showOptions()) {
-      <app-widget-options [data]="data()" [(showOptions)]="showOptions"></app-widget-options>
-    }
+  @if (showOptions()) {
+  <app-widget-options [data]="data()" [(showOptions)]="showOptions"></app-widget-options>
+  }
 
 
 </div>

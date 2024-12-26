@@ -5,22 +5,22 @@
       <div *ngIf="enrollment?.completionStatus" class="me-2">
         <span>Grade: </span> <strong class="fs-5">{{ getGradeLetter(enrollment?.grade ?? 0) }}</strong>
       </div>
-      <span
-        [ngClass]="{ 'completed': enrollment?.completionStatus, 'not-completed': !enrollment?.completionStatus }"
-        [matTooltip]="!(enrollment) || enrollment.completionStatus ? 'Completed' : 'Not Completed'"
-      ></span>
+      <span [ngClass]="{ 'completed': enrollment?.completionStatus, 'not-completed': !enrollment?.completionStatus }"
+        [matTooltip]="!(enrollment) || enrollment.completionStatus ? 'Completed' : 'Not Completed'"></span>
     </div>
   </mat-card-header>
   <mat-card-content>
     <div>
       <div class="mb-2">{{ enrollment?.course?.semester }}</div>
-      <div class="mb-2" *ngIf="showDelete">{{ enrollment?.student?.firstName }} {{ enrollment?.student?.lastName }}</div>
+      <div class="mb-2" *ngIf="showDelete">{{ enrollment?.student?.firstName }} {{ enrollment?.student?.lastName }}
+      </div>
       <div class="mb-2">
         <strong>Enrolled On:</strong> {{ enrollment?.enrollmentDate | date: 'mediumDate' }}
       </div>
       <div class="mb-2">
         <strong>Progress:</strong>
-        <mat-progress-bar mode="determinate" [value]="enrollment?.progress?.overallProgress" [ngClass]="showDelete ? 'secondary-progress' : ''"></mat-progress-bar>
+        <mat-progress-bar mode="determinate" [value]="enrollment?.progress?.overallProgress"
+          [ngClass]="showDelete ? 'secondary-progress' : ''"></mat-progress-bar>
         <span class="d-flex justify-content-end">
           {{ enrollment?.progress?.overallProgress }}%
         </span>
@@ -31,11 +31,7 @@
         Last Access: {{ enrollment?.progress?.lastAccess | date: 'mediumDate' }}
       </div>
       <ng-container *ngIf="showViewDetails">
-        <button
-          mat-button
-          color="primary"
-          [routerLink]="['/courses', enrollment?.course?.id]"
-          (click)="onViewCourse()">
+        <button mat-button color="primary" [routerLink]="['/courses', enrollment?.course?.id]" (click)="onViewCourse()">
           View Course Details
         </button>
       </ng-container>

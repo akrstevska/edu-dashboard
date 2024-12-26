@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {filter, Observable, tap} from 'rxjs';
-import {CourseStats, DashboardService} from '../../../../services/dashboard.service';
-import {MatIcon} from '@angular/material/icon';
+import { Component, OnInit } from '@angular/core';
+import { filter, Observable, tap } from 'rxjs';
+import {
+  CourseStats,
+  DashboardService,
+} from '../../../../services/dashboard.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-active-enrollments',
-  imports: [
-    MatIcon
-  ],
+  imports: [MatIcon],
   templateUrl: './active-enrollments.component.html',
-  styleUrl: './active-enrollments.component.css'
+  styleUrl: './active-enrollments.component.css',
 })
 export class ActiveEnrollmentsComponent implements OnInit {
   totalActiveEnrollments = 0;
@@ -20,15 +21,17 @@ export class ActiveEnrollmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courseStats$.pipe(
-      filter(stats => stats !== null),
-      tap(stats => {
-        if (stats) {
-          this.totalActiveEnrollments = stats.reduce((total, stat) => {
-            return total + (stat.activeEnrollments || 0);
-          }, 0);
-        }
-      })
-    ).subscribe();
+    this.courseStats$
+      .pipe(
+        filter((stats) => stats !== null),
+        tap((stats) => {
+          if (stats) {
+            this.totalActiveEnrollments = stats.reduce((total, stat) => {
+              return total + (stat.activeEnrollments || 0);
+            }, 0);
+          }
+        })
+      )
+      .subscribe();
   }
 }

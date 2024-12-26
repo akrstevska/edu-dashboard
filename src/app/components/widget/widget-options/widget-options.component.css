@@ -1,7 +1,7 @@
-:host{
+:host {
   position: absolute;
   z-index: 2;
-  background: #111B34;
+  background: #111b34;
   color: inherit;
   top: 0;
   left: 0;
@@ -15,31 +15,31 @@
   align-items: center;
   box-sizing: border-box;
   --mat-standard-button-toggle-height: 16px;
-  > div{
+  > div {
     display: flex;
     gap: 8px;
     align-items: center;
     margin-bottom: 8px;
   }
 }
-.close-button{
+.close-button {
   position: absolute;
   top: 0;
   right: 0;
 }
-.move-forward-button{
+.move-forward-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 0px;
 }
-.move-backward-button{
+.move-backward-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 0px;
 }
-.remove-widget-button{
+.remove-widget-button {
   position: absolute;
   top: 0;
   left: 0;

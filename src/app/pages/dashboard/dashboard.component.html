@@ -2,22 +2,24 @@
   <div class="col-11">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="fw-light">Dashboard</h2>
-      <button mat-raised-button [matMenuTriggerFor]="widgetMenu"><mat-icon>add_circle</mat-icon> Add Widget</button>
+      <button mat-raised-button [matMenuTriggerFor]="widgetMenu">
+        <mat-icon>add_circle</mat-icon> Add Widget
+      </button>
       <mat-menu #widgetMenu="matMenu">
         @for ( widget of store.widgetsToAdd(); track widget.id) {
-          <button mat-menu-item (click)="store.addWidget(widget)">
-            {{widget.label}}
-          </button>
+        <button mat-menu-item (click)="store.addWidget(widget)">
+          {{widget.label}}
+        </button>
         } @empty {
-          <button mat-menu-item>
-            No Widgets to Add
-          </button>
+        <button mat-menu-item>
+          No Widgets to Add
+        </button>
         }
       </mat-menu>
     </div>
     <div #dashboard class="dashboard-widgets">
       @for(w of store.addedWidgets(); track w.id){
-        <app-widget [data]="w"></app-widget>
+      <app-widget [data]="w"></app-widget>
       }
     </div>
 

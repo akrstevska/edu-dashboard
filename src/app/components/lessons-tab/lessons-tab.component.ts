@@ -1,19 +1,31 @@
-import {Component, AfterViewInit, Input, ViewChild, OnInit, ChangeDetectorRef} from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  Input,
+  ViewChild,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Lesson } from '../../../models/lesson';
-import {LessonService} from '../../services/lesson.service';
-import {MatButton, MatMiniFabButton} from '@angular/material/button';
-import {MatTooltip} from '@angular/material/tooltip';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {NgForOf, NgIf, SlicePipe} from '@angular/common';
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
-import {MatIcon} from '@angular/material/icon';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {Course} from '../../../models/course';
-import {CreateLessonDialogComponent} from '../../dialogs/create-lesson-dialog/create-lesson-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
-import {SwalService} from '../../services/swal.service';
+import { LessonService } from '../../services/lesson.service';
+import { MatButton, MatMiniFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgForOf, NgIf, SlicePipe } from '@angular/common';
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { Course } from '../../../models/course';
+import { CreateLessonDialogComponent } from '../../dialogs/create-lesson-dialog/create-lesson-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SwalService } from '../../services/swal.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -33,11 +45,10 @@ import Swal from 'sweetalert2';
     MatCardContent,
     MatIcon,
     NgIf,
-    SlicePipe,
     MatPaginator,
-    MatProgressSpinner
+    MatProgressSpinner,
   ],
-  styleUrls: ['./lessons-tab.component.css']
+  styleUrls: ['./lessons-tab.component.css'],
 })
 export class LessonsTabComponent implements AfterViewInit, OnInit {
   @Input({ required: true }) course: Course | undefined;
@@ -50,7 +61,12 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private lessonService: LessonService, private dialog: MatDialog,private swalService: SwalService,private cdr: ChangeDetectorRef) {}
+  constructor(
+    private lessonService: LessonService,
+    private dialog: MatDialog,
+    private swalService: SwalService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.fetchLessons();
@@ -65,11 +81,11 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
     this.loading = true;
     this.lessonService.getLessonsByCourseId(this.course.id).subscribe({
       next: (data) => {
-        this.lessons = data.map(lesson => ({
+        this.lessons = data.map((lesson) => ({
           ...lesson,
-          isExpanded: false
+          isExpanded: false,
         }));
-        console.log(this.lessons)
+        console.log(this.lessons);
         this.filteredLessons = [...this.lessons];
         this.updatePaginatedLessons();
         this.loading = false;
@@ -77,7 +93,7 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
       error: (err) => {
         console.error('Failed to fetch lessons:', err);
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -98,8 +114,10 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.filteredLessons = this.lessons.filter(lesson =>
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.filteredLessons = this.lessons.filter((lesson) =>
       lesson?.title.toLowerCase().includes(filterValue)
     );
     this.pageIndex = 0;
@@ -107,10 +125,18 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
   }
 
   toggleContent(index: number): void {
-    this.lessons[index].isExpanded = !this.lessons[index].isExpanded;
-    this.cdr.detectChanges();
+    const lesson = this.paginatedLessons[index];
+    const originalIndex = this.lessons.findIndex((l) => l.id === lesson.id);
+    if (originalIndex !== -1) {
+      this.lessons[originalIndex].isExpanded =
+        !this.lessons[originalIndex].isExpanded;
+      this.updatePaginatedLessons();
+      this.cdr.detectChanges();
+    }
   }
-
+  trackByLesson(index: number, lesson: Lesson): number {
+    return lesson.id;
+  }
   openCreateLessonDialog() {
     const dialogRef = this.dialog.open(CreateLessonDialogComponent, {
       width: '800px',
@@ -123,7 +149,6 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
       }
     });
   }
-
 
   openEditLessonDialog(lesson: Lesson) {
     if (!lesson) {
@@ -172,7 +197,7 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
           error: (error) => {
             this.swalService.error('Failed to delete lesson');
             console.error('Delete error', error);
-          }
+          },
         });
       }
     });

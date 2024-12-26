@@ -27,9 +27,7 @@
       <mat-form-field class="col-12 secondary-input mb-3" appearance="outline">
         <mat-label>Content</mat-label>
         <mat-icon matPrefix>notes</mat-icon>
-        <textarea matInput
-                  placeholder="Enter lesson content"
-                  formControlName="content" rows="6"></textarea>
+        <textarea matInput placeholder="Enter lesson content" formControlName="content" rows="6"></textarea>
         <mat-error *ngIf="lessonForm.get('content')?.invalid">
           Content is required
         </mat-error>
@@ -41,9 +39,8 @@
 
 <mat-dialog-actions align="end">
   <button mat-button class="secondary-button" color="warn" (click)="onCancel()">Cancel</button>
-  <button mat-raised-button class="secondary-button" color="primary"
-          (click)="onCreate()"
-          [disabled]="lessonForm.invalid">
+  <button mat-raised-button class="secondary-button" color="primary" (click)="onCreate()"
+    [disabled]="lessonForm.invalid">
     {{ isEditMode ? 'Update Lesson' : 'Create Lesson' }}
   </button>
 </mat-dialog-actions>
