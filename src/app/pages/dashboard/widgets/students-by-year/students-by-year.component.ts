@@ -17,9 +17,9 @@ import {DashboardService} from '../../../../services/dashboard.service';
   styleUrl: './students-by-year.component.css'
 })
 export class StudentsByYearComponent implements OnInit {
-  studentsByYear: { [key: string]: number } = {}; // Object to hold the count of students by year
+  studentsByYear: { [key: string]: number } = {};
 
-  loading: boolean = true; // Loading state
+  loading: boolean = true;
   student$: Observable<Student[] | null>;
 
   constructor(private dashboardService: DashboardService) {
@@ -37,10 +37,10 @@ export class StudentsByYearComponent implements OnInit {
   }
 
   private groupStudentsByYear(students: Student[]): void {
-    this.studentsByYear = {}; // Reset the object
+    this.studentsByYear = {};
 
     students.forEach(student => {
-      const year = student.currentYear; // Assuming 'year' is a property in the IStudent interface
+      const year = student.currentYear;
       if (this.studentsByYear[year]) {
         this.studentsByYear[year]++;
       } else {

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ViewChild, OnInit } from '@angular/core';
+import {Component, AfterViewInit, Input, ViewChild, OnInit, ChangeDetectorRef} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Lesson } from '../../../models/lesson';
 import {LessonService} from '../../services/lesson.service';
@@ -11,6 +11,10 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/mat
 import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Course} from '../../../models/course';
+import {CreateLessonDialogComponent} from '../../dialogs/create-lesson-dialog/create-lesson-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {SwalService} from '../../services/swal.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lessons-tab',
@@ -46,12 +50,11 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private lessonService: LessonService) {}
+  constructor(private lessonService: LessonService, private dialog: MatDialog,private swalService: SwalService,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.fetchLessons();
   }
-
   fetchLessons(): void {
     if (!this.course?.id) {
       console.error('Course ID is undefined.');
@@ -62,7 +65,11 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
     this.loading = true;
     this.lessonService.getLessonsByCourseId(this.course.id).subscribe({
       next: (data) => {
-        this.lessons = data;
+        this.lessons = data.map(lesson => ({
+          ...lesson,
+          isExpanded: false
+        }));
+        console.log(this.lessons)
         this.filteredLessons = [...this.lessons];
         this.updatePaginatedLessons();
         this.loading = false;
@@ -73,8 +80,6 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
       }
     });
   }
-
-
 
   ngAfterViewInit() {
     this.updatePaginatedLessons();
@@ -102,7 +107,74 @@ export class LessonsTabComponent implements AfterViewInit, OnInit {
   }
 
   toggleContent(index: number): void {
-    const lessonIndex = this.lessons.findIndex((_, i) => i === index);
-    this.lessons[lessonIndex].isExpanded = !this.lessons[lessonIndex].isExpanded;
+    this.lessons[index].isExpanded = !this.lessons[index].isExpanded;
+    this.cdr.detectChanges();
+  }
+
+  openCreateLessonDialog() {
+    const dialogRef = this.dialog.open(CreateLessonDialogComponent, {
+      width: '800px',
+      data: { course: this.course },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchLessons();
+      }
+    });
+  }
+
+
+  openEditLessonDialog(lesson: Lesson) {
+    if (!lesson) {
+      this.swalService.error('No lesson selected');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(CreateLessonDialogComponent, {
+      width: '600px',
+      data: { lesson, course: this.course },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchLessons();
+      }
+    });
+  }
+
+  deleteLesson(lessonId: number | undefined) {
+    if (!lessonId) {
+      this.swalService.error('Lesson ID not found');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this lesson?',
+      icon: 'warning',
+      showCancelButton: true,
+      background: '#111B34',
+      color: '#efefef',
+      confirmButtonColor: '#3532B2',
+      cancelButtonColor: '#e57272',
+      confirmButtonText: 'Yes, delete it!',
+      customClass: {
+        container: 'swal2-theme-material-ui',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.lessonService.deleteLesson(lessonId).subscribe({
+          next: () => {
+            this.swalService.success('Lesson deleted successfully!');
+            this.fetchLessons();
+          },
+          error: (error) => {
+            this.swalService.error('Failed to delete lesson');
+            console.error('Delete error', error);
+          }
+        });
+      }
+    });
   }
 }

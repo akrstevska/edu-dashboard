@@ -18,7 +18,7 @@ import {filter, Observable, tap} from 'rxjs';
   styleUrls: ['./course-popularity.component.css']
 })
 export class CoursePopularityComponent implements OnInit {
-  @ViewChild('chart', { static: true }) chart!: ElementRef; // Correct usage of ViewChild
+  @ViewChild('chart', { static: true }) chart!: ElementRef;
   loading = true;
   courseStats$: Observable<CourseStats[] | null>;
 
@@ -55,7 +55,7 @@ export class CoursePopularityComponent implements OnInit {
         plugins: {
           legend: {
             labels: {
-              color: 'white' // Text color for the legend
+              color: 'white'
             }
           }
         },
@@ -63,14 +63,13 @@ export class CoursePopularityComponent implements OnInit {
           x: {
             display: false,
             ticks: {
-              color: 'white' // Text color for x-axis labels
+              color: 'white'
             }
           },
           y: {
             ticks: {
-              color: 'white' // Text color for y-axis labels
+              color: 'white'
             },
-            // suggestedMin: 0,
           }
         }
       }

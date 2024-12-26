@@ -27,7 +27,7 @@ import {filter, Observable, tap} from 'rxjs';
   styleUrls: ['./upcoming-deadlines.component.css']
 })
 export class UpcomingDeadlinesComponent implements OnInit {
-  upcomingDeadlines: CourseStats[] = []; // Array to hold upcoming deadlines
+  upcomingDeadlines: CourseStats[] = [];
   loading = true;
   courseStats$: Observable<CourseStats[] | null>;
 
@@ -49,7 +49,7 @@ export class UpcomingDeadlinesComponent implements OnInit {
   private filterUpcomingDeadlines(stats: CourseStats[]): void {
     const now = new Date();
     const fourWeeksFromNow = new Date();
-    fourWeeksFromNow.setDate(now.getDate() + 28); // Set to 4 weeks from now
+    fourWeeksFromNow.setDate(now.getDate() + 28);
 
     this.upcomingDeadlines = stats.filter(course => {
       const deadline = new Date(course.enrollmentDeadline);

@@ -24,9 +24,8 @@ export class ActiveEnrollmentsComponent implements OnInit {
       filter(stats => stats !== null),
       tap(stats => {
         if (stats) {
-          // Sum the activeEnrollments for each course
           this.totalActiveEnrollments = stats.reduce((total, stat) => {
-            return total + (stat.activeEnrollments || 0); // Ensure to handle undefined values
+            return total + (stat.activeEnrollments || 0);
           }, 0);
         }
       })

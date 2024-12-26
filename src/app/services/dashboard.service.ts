@@ -60,6 +60,14 @@ export class DashboardService {
       background: '#3532B2',
     },
     {
+      id: 8,
+      label: 'Upcoming Enrollment Deadlines',
+      content: UpcomingDeadlinesComponent,
+      rows:2,
+      columns:2,
+      background: '#90195E',
+    },
+    {
       id: 3,
       label: 'Active Enrollments',
       content: ActiveEnrollmentsComponent,
@@ -71,43 +79,86 @@ export class DashboardService {
       id: 4,
       label: 'Students By Year',
       content: StudentsByYearComponent,
-      rows:1,
-      columns:1,
-      background: '#3532B2',
-    },
-    {
-      id: 5,
-      label: 'Course Popularity',
-      content: CoursePopularityComponent,
       rows:2,
       columns:2,
+      background: '#3532B2',
     },
     {
       id: 6,
       label: 'Completion Rates By Course',
       content: CompletionRatesComponent,
-      rows:2,
-      columns:3,
+      rows:3,
+      columns:2,
     },
+    {
+      id: 5,
+      label: 'Course Popularity',
+      content: CoursePopularityComponent,
+      rows:3,
+      columns:2,
+    },
+
     {
       id: 7,
       label: 'Progress By Course',
       content: ProgressByCourseComponent,
-      rows:2,
+      rows:3,
       columns:2,
+    },
+
+
+  ])
+
+  addedWidgets= signal<Widget[]>([
+    {
+      id: 1,
+      label: 'Students',
+      content: StudentsComponent,
+      rows:1,
+      columns:1,
+      background: '#3532B2',
+    },
+    {
+      id: 2,
+      label: 'Courses',
+      content: CoursesComponent,
+      rows:1,
+      columns:1,
+      background: '#3532B2',
     },
     {
       id: 8,
       label: 'Upcoming Enrollment Deadlines',
       content: UpcomingDeadlinesComponent,
-      rows:3,
+      rows:2,
       columns:2,
       background: '#90195E',
-    }
+    },
+    {
+      id: 7,
+      label: 'Progress By Course',
+      content: ProgressByCourseComponent,
+      rows:3,
+      columns:2,
+    },
 
-  ])
+    {
+      id: 5,
+      label: 'Course Popularity',
+      content: CoursePopularityComponent,
+      rows:3,
+      columns:2,
+    },
+    {
+      id: 4,
+      label: 'Students By Year',
+      content: StudentsByYearComponent,
+      rows:2,
+      columns:2,
+      background: '#3532B2',
+    },
 
-  addedWidgets= signal<Widget[]>([]);
+  ]);
 
 
   fetchCourseStats(): Observable<{stats: CourseStats[]}> {
@@ -126,12 +177,12 @@ export class DashboardService {
   fetchStudents(): Observable<Student[]> {
     return this.http.get<Student[]>('https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/student').pipe(
       tap(students => {
-        this.studentSubject.next(students); // Pass the students array directly
+        this.studentSubject.next(students);
       }),
       catchError(error => {
         console.error('Error fetching students', error);
-        this.studentSubject.next([]); // Pass an empty array on error
-        return of([]); // Return an empty array as the observable
+        this.studentSubject.next([]);
+        return of([]);
       })
     );
   }

@@ -46,8 +46,8 @@ export class CoursesComponent implements OnInit {
 
     this.courseService.courses$.subscribe(courses => {
       this.courses = courses;
-      this.filteredCourses = courses || []; // Set filteredCourses when courses update
-      this.updatePaginatedCourses(); // Update pagination when data changes
+      this.filteredCourses = courses || [];
+      this.updatePaginatedCourses();
       this.loading = courses.length === 0;
     });
 
@@ -69,11 +69,7 @@ export class CoursesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const newCourse = {
-          ...result,
-        };
-        // this.students.push(newStudent);
-        // this.dataSource.data = this.students; // Update the data source
+        this.courseService.fetchCourses().subscribe();
       }
     });
   }

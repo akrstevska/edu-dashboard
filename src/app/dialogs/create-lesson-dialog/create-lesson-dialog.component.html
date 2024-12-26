@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>
+  {{ isEditMode ? 'Edit Lesson' : 'Create New Lesson' }}
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="lessonForm">
+    <div class="row mt-3">
+      <mat-form-field class="col-12 mb-3 secondary-input" appearance="outline">
+        <mat-label>Title</mat-label>
+        <mat-icon matPrefix>book</mat-icon>
+        <input matInput formControlName="title" required>
+        <mat-error *ngIf="lessonForm.get('title')?.invalid">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+    <mat-form-field class="col-12 secondary-input mb-3" appearance="outline">
+      <mat-label>Description</mat-label>
+      <mat-icon matPrefix>description</mat-icon>
+      <input matInput formControlName="description" required>
+      <mat-error *ngIf="lessonForm.get('description')?.invalid">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field class="col-12 secondary-input mb-3" appearance="outline">
+        <mat-label>Content</mat-label>
+        <mat-icon matPrefix>notes</mat-icon>
+        <textarea matInput
+                  placeholder="Enter lesson content"
+                  formControlName="content" rows="6"></textarea>
+        <mat-error *ngIf="lessonForm.get('content')?.invalid">
+          Content is required
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button class="secondary-button" color="warn" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button class="secondary-button" color="primary"
+          (click)="onCreate()"
+          [disabled]="lessonForm.invalid">
+    {{ isEditMode ? 'Update Lesson' : 'Create Lesson' }}
+  </button>
+</mat-dialog-actions>

@@ -90,11 +90,5 @@ export class CourseDetailsComponent implements OnInit {
       width: '600px',
       data: { course: course }
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   // if (result) {
-    //   //   this.enrollmentService.getE().subscribe();
-    //   // }
-    // });
   }
 }

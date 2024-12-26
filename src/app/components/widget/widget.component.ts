@@ -1,6 +1,5 @@
 import {Component, input, signal} from '@angular/core';
 import {Widget} from '../../../models/widget';
-import {MatCard, MatCardContent} from '@angular/material/card';
 import {NgComponentOutlet} from '@angular/common';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -9,8 +8,6 @@ import {WidgetOptionsComponent} from './widget-options/widget-options.component'
 @Component({
   selector: 'app-widget',
   imports: [
-    MatCard,
-    MatCardContent,
     NgComponentOutlet,
     MatIconButton,
     MatIcon,

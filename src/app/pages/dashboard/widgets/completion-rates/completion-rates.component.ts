@@ -15,7 +15,7 @@ import {filter, Observable, tap} from 'rxjs';
   styleUrl: './completion-rates.component.css'
 })
 export class CompletionRatesComponent implements OnInit {
-  @ViewChild('chart', { static: true }) chart!: ElementRef; // Correct usage of ViewChild
+  @ViewChild('chart', { static: true }) chart!: ElementRef;
   loading = true;
   courseStats$: Observable<CourseStats[] | null>;
 
@@ -48,35 +48,35 @@ export class CompletionRatesComponent implements OnInit {
         }]
       },
       options: {
-        indexAxis: 'y', // Make the bar chart horizontal
+        indexAxis: 'y',
         maintainAspectRatio: false,
         scales: {
           x: {
             ticks: {
-              color: 'white' // Text color for x-axis
+              color: 'white'
             },
             title: {
               display: true,
               text: 'Completion Rate (%)',
-              color: 'white' // Title color for x-axis
+              color: 'white'
             }
           },
           y: {
             display: false,
             ticks: {
-              color: 'white' // Text color for y-axis
+              color: 'white'
             },
             title: {
               display: true,
               text: 'Courses',
-              color: 'white' // Title color for y-axis
+              color: 'white'
             }
           }
         },
         plugins: {
           legend: {
             labels: {
-              color: 'white' // Legend text color
+              color: 'white'
             }
           }
         }
