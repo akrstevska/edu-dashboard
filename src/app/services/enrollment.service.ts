@@ -8,7 +8,7 @@ import { Enrollment } from '../../models/enrollment';
 })
 export class EnrollmentService {
   private baseUrl =
-    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/enrollment';
+    'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/enrollment';
   private enrollmentSubject = new BehaviorSubject<Enrollment[]>([]);
   enrollments$ = this.enrollmentSubject.asObservable();
   private currentCourseId: number | null = null;

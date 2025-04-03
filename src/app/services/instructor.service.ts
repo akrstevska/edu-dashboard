@@ -8,7 +8,7 @@ import { Instructor } from '../../models/instructor';
 })
 export class InstructorService {
   private baseUrl =
-    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/instructor';
+    'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/instructor';
 
   constructor(private http: HttpClient) {}
 

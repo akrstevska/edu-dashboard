@@ -12,7 +12,7 @@ export class CourseService {
 
   private http = inject(HttpClient);
   private apiUrl =
-    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/course';
+    'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/course';
 
   fetchCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(this.apiUrl).pipe(

@@ -8,7 +8,7 @@ import { Lesson } from '../../models/lesson';
 })
 export class LessonService {
   private baseUrl =
-    'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/lesson';
+    'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/lesson';
   private lessonSubject = new BehaviorSubject<Lesson[]>([]);
   lessons$ = this.lessonSubject.asObservable();
 

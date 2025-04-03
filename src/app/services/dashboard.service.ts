@@ -159,7 +159,7 @@ export class DashboardService {
   fetchCourseStats(): Observable<{ stats: CourseStats[] }> {
     return this.http
       .get<{ stats: CourseStats[] }>(
-        'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/course/statistics'
+        'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/course/statistics'
       )
       .pipe(
         tap((response) => {
@@ -176,7 +176,7 @@ export class DashboardService {
   fetchStudents(): Observable<Student[]> {
     return this.http
       .get<Student[]>(
-        'https://edudashboard-hqc2bxe4aabhgvb8.eastus-01.azurewebsites.net/student'
+        'https://edudashboard-hqc2bxe4aabhgvb8.azurewebsites.net/student'
       )
       .pipe(
         tap((students) => {
